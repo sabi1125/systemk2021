@@ -1,0 +1,29 @@
+{% extends "index.twig" %}
+{% block title %}
+<title>success!!</title>
+{% endblock %}
+
+
+{% block main %}
+<div class="success">
+<p>Your Account Has been created</p>
+<p><a href="index.php">login</a></p>
+</div>
+{% endblock %}
+
+{% block style %}
+
+<style>
+
+.success{
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+
+</style>
+{% endblock %}
+
+

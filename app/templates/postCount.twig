@@ -1,0 +1,168 @@
+{% extends "index.twig" %}
+{% block title %}
+<title>Post</title>
+{% endblock %}
+
+{% block profiler %}
+<div class="profiler">
+{% include "components/currentProfile.twig" with {"username" : currentUsername , "profilePic" : currentProfilePic } %}
+</div>
+{% endblock %}
+
+{% block main %}
+
+
+{% if errors %}
+
+{% include "components/errors.twig" with {"error" : errors} %}
+
+{% endif %}
+
+{% include "components/navbar.twig" %}
+
+<div class="post">
+<p class="text">{{post}}</p>
+{% if image != null %}
+
+<img src="/image/{{image}}" class="image">
+{% else %}
+
+{% endif %}
+
+</div>
+
+<div class="bar">
+{% if liked %}
+<a href="likes.php?id={{id}}">
+<img src="/util/active.svg" class = "like">
+</a>
+{% else %}
+<a href="likes.php?id={{id}}">
+
+<img src="/util/inactive.svg" class = "like">
+
+</a>
+{% endif %}
+</div>
+
+
+
+<div class="comment" id="comment">
+
+<div class="comments">
+{% for comment in comments %}
+<div class="commenter">
+<a href ="profile.php?s={{comment.username}}"><img src="/image/{{comment.profilePic}}" class="commenterImg"></a>
+
+<a href ="profile.php?s={{comment.username}}"><p>{{ comment.fullname }}</p></a>
+
+</div>
+
+<p class="realComment">{{ comment.comment }}</p>
+
+{% endfor %}
+</div>
+<form class="commentForm" method="post" action="postsCounts.php?id={{id}}">
+<input name="comment" placeholder="comment" class="commentInput">
+<button name="submit">comment</button>
+</form>
+</div>
+
+
+
+
+
+{% endblock %}
+
+{% block style %}
+
+<style>
+
+.post {
+    width:50%;
+    margin:40px auto;
+    display:flex;
+    flex-direction:column;
+}
+.text {
+    padding:50px;
+}
+
+.image {
+    width: 500;
+    height:700;
+    box-shadow:1px 5px 5px rgba(0,0,0,0.5);
+}
+
+.bar{
+    width:7%;
+    margin:0 auto;
+        display:flex;
+    flex-direction:row;
+    justify-content:space-around;    
+}
+.comment{
+    width:70%;
+    margin:40px auto;
+}
+.commentInput {
+    width:70%;
+}
+.commenter {
+    width:150px;
+    display:flex;
+    align-items:center;
+    justify-content:space-around;
+}
+.commentForm {
+    width:70%;
+    margin: 30px auto;
+}
+.commenterImg {
+    width:30px;
+    height:30px;
+    border:3px solid grey;
+    border-radius:50%;
+}
+.realComment {
+    width:90%;
+    margin:10px auto;
+}
+
+.like{
+    cursor:pointer;
+}
+.cmt {
+    cursor:pointer;
+}
+
+
+@media (max-width: 980px) {
+.timeline{
+    width:85%;
+    margin:0 auto;
+}
+.image {
+    box-shadow:1px 5px 5px rgba(0,0,0,0.5);
+    width: 200;
+    height: 400;
+}
+}
+</style>
+{% endblock %}
+
+{% block script %}
+
+<script>
+
+        document.addEventListener("DOMContentLoaded", function(event) { 
+            var scrollpos = localStorage.getItem('scrollpos');
+            if (scrollpos) window.scrollTo(100, scrollpos);
+        });
+
+        window.onbeforeunload = function(e) {
+            localStorage.setItem('scrollpos', window.scrollY);
+        };
+</script>
+
+{% endblock %}

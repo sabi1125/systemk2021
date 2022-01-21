@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}
+    <title>Login</title>
+    {% endblock %}
+</head>
+<body>
+
+
+
+{% block profiler %}
+{% endblock %}
+
+
+
+<main>
+{% block main %}
+{% if errors %}
+
+{% include "components/errors.twig" with {"error" : errors} %}
+
+{% endif %}
+
+   <div class="login">
+      <form action="index.php" method="post">
+      <h3>Signup</h3>
+      <input type="text" name="username" placeholder="Username">
+      <br>
+      <input type="password" name="password" placeholder="password">
+      <br>
+      {% include "components/button.twig" with {"name":"submit","value":"sign in","id":"signin"} %}
+      <p>Account持ってないなら<a href="signup.php">sign up</a></p>
+   </form>
+
+{% endblock main %}
+
+</main>
+
+{% block style %}
+<style>
+
+*{
+    padding:0;
+    margin:0;
+ }
+ .login{
+    width:100%;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+ }
+ .login form {
+    display:flex;
+    height:18vh;
+    flex-direction:column;
+    text-align:center;
+ }
+
+.login form h3 {
+    padding:20px;
+}
+
+ .login form input{
+    width: 500px;
+    padding: 10px;
+ }
+ .login form a{
+    color: coral;
+ }
+
+ .login form p{
+    padding:20px;
+ }
+
+
+
+@media (max-width:980px){
+    .login form input{
+        width: 95%;
+    }
+}
+</style>
+{% endblock %}
+
+
+{% block script %}
+{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,192 @@
+{% extends "index.twig" %}
+{% block title %}
+<title>Edit Profile</title>
+{% endblock %}
+
+
+{% block profiler %}
+<div class="profiler">
+{% include "components/currentProfile.twig" with {"username" : currentUsername , "profilePic" : currentProfilePic } %}
+</div>
+{% endblock %}
+
+
+
+{% block main %}
+{% include "components/navbar.twig" %}
+{% if errors %}
+{% include "components/errors.twig" with {"error" : errors} %}
+{% endif %}
+
+
+<div class="form">
+<form action="search.php" method="POST">
+    <input type="text" name="name" class="search" placeholder="search by name">
+    {% include "components/button.twig" with {"name":"byname","value":"search","id":"Search By Name"} %}
+</form>
+
+<form action="search.php" method="POST">
+    <div class = "bydate">
+    <input type="date" name="startDate" class="search">
+    <br>
+    <input type="date" name="endDate" class="search">
+    {% include "components/button.twig" with {"name":"bydate","value":"search","id":"Search By Date"} %}
+    </div>
+</form>
+</div>
+
+<div class="searchResults">
+
+{% if profiles %}
+
+<a href="search.php">close</a>
+
+{% for key, pic in profiles %}
+
+<div class="searchInfo">
+<img src=image/{{ pic }} class="resultProfileImage"> : <a href="profile.php?s={{ key }}"> {{ key }} </a>
+</div>
+
+{% endfor %}
+
+{% endif %}
+
+<div class = "dashboard">
+
+<div class="following">
+{% if count == 0 %}
+
+<strong>You are not following anyone currently.</strong>
+{% else %}
+<strong>Following: {{ count }}</strong>
+{% for user in users %}
+<ul class="followList"> 
+<li>
+<a href="profile.php?s={{ user }}"> {{ user }}</a>
+</li>
+ </ul>
+{% endfor %}
+
+{% endif %}
+</div>
+
+
+
+<div class="follower">
+{% if followersCount == 0 %}
+
+<strong>Nobody is currently Following you</strong>
+{% else %}
+<strong>Followers: {{ followersCount }}</strong>
+{% for follower in followers %}
+<ul class="followList"> 
+<li>
+<a href="profile.php?s={{ follower }}"> {{ follower }}</a>
+</li>
+ </ul>
+{% endfor %}
+
+{% endif %}
+</div>
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+{% block style %}
+
+<style>
+*{
+    padding:0;
+    margin:0;
+}
+li{
+    list-style:none;
+}
+
+.btn{
+    background:blueviolet;
+}
+.search {
+    padding:10px;
+}
+.form{
+    width:50%;
+    margin:10vh auto;
+    display:flex;
+    text-align:center;
+    justify-content:space-around;
+}
+.byDate{
+    display:flex;
+}
+.searchResults{
+    width:100%;
+    margin:0 auto;
+    z-index:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:space-evenly;
+    position:relative;
+}
+.searchInfo{
+    width:80%;
+    display:flex;
+    justify-content:start;
+    align-items:center;
+}
+.resultProfileImage{
+    max-width:100%;
+    height:30px;
+    width:30px;
+    border-radius:50%;
+    border:5px solid blue;
+}
+.dashboard{
+    width:100%;
+    display:flex;
+    align-items:center;
+}
+.following{
+    width:70%;
+    text-align:center;
+    padding:10px;
+}
+.followList{
+    padding:10px;
+    margin:20px;
+}
+
+@media (max-width: 980px) {
+    .form {
+        width:90%;
+        height: 20vh;
+        flex-direction:column;
+        justify-content:space-around;
+        align-items:center;
+    }
+    .dashboard {
+        flex-direction:column;
+    }
+    .bydate{
+        display:flex;
+        flex-direction:column;
+    }
+}
+</style>
+
+{% endblock %}

@@ -1,0 +1,129 @@
+{% extends "index.twig" %}
+{% block title %}
+<title>{{ username }}</title>
+{% endblock %}
+
+
+
+{% block main %}
+
+{% include "components/navbar.twig" %}
+
+<div class = "userInfo">
+
+{% if profilePic == null %}
+
+{% if owner %}
+<h4><a href="changeProfilepic.php">no profile Pic
+<br>
+click here to change profile pic</a></h4>
+
+{% else %}
+<p>No profile pic available</p>
+{% endif %}
+
+{% else %}
+
+<img src="/image/{{ profilePic }}" class="profilePic">
+
+{% if owner %}
+<a href="changeProfilepic.php" class="changeProf">Change ProfilePic</p></a>
+{% endif %}
+{% endif %}
+
+
+<p class="username"> @{{ username }} </p>
+
+{% if bio == null %}
+<p>add bio by clicking on the edit profile button</p>
+{% endif %}
+
+
+<p class="bio">{{ bio }}</p>
+{% if owner %}
+<a href="editProfile.php" class="editProfile">Edit bio</a>
+{% else %}
+
+{% if follow %}
+
+<strong>Following</strong>
+
+{% else %}
+
+<a href="profile.php?f={{ username }}">Follow</a>
+
+{% endif %}
+
+{% endif %}
+</div>
+
+{% endblock %}
+
+{% block style %}
+
+<style>
+.userInfo{
+    width:80%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:space-around;
+    text-align:center;
+    margin:7vh auto;
+    padding:20px;
+    }
+.userInfo .username {
+    color:#4c334d;
+    font-family:monospace;
+}
+.userInfo h4{
+    text-align:center;
+}
+
+.userInfo h4 a{
+    color:black;
+}
+.changeProf{
+    color: black;
+    text-decoration:none;
+    font-size:12px;
+    padding:5px;
+    transition:0.5s ease-in-out;
+}
+.changeProf:hover{
+    background:coral;
+    color:white;
+    border-radius:5px;
+}
+.userInfo .profilePic{
+    max-width:150px;
+    border-radius:50%;
+    width:200px;
+    height:150px;
+    margin:0 auto;
+    border: 5px solid lightblue;
+    object-fit: cover;
+}
+.bio{
+    padding:5px;
+}
+.username{
+    padding:15px;
+}
+.editProfile{
+    padding:10px;
+    transition:0.3s ease-in-out;
+}
+.editProfile:hover{
+    background:coral;
+    color:white;
+    border-radius:5px;
+}
+
+@media (max-width: 980px) {
+    
+}
+</style>
+{% endblock %}
+
+

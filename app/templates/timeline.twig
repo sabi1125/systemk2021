@@ -1,0 +1,223 @@
+{% extends "index.twig" %}
+{% block title %}
+<title>Timeline</title>
+{% endblock %}
+
+{% block profiler %}
+<div class="profiler">
+{% include "components/currentProfile.twig" with {"username" : currentUsername , "profilePic" : currentProfilePic } %}
+</div>
+{% endblock %}
+
+{% block main %}
+
+
+{% include "components/navbar.twig" %}
+
+
+{% if count == 0 %}
+no posts
+{% endif %}
+
+<div class="timeline">
+
+
+{% for chunk in userAndPost %}
+
+
+
+<div class="posts">
+<div class="top">
+<img src="/image/{{chunk.profilePic}}" class="profilePic">
+<div class="postUser">
+<p><a href="profile.php?s={{chunk.username}}" class="username">{{ chunk.fullname }}</a></p>
+{% set ids = chunk.id %}
+<a href="postsCounts.php?id={{chunk.id}}" class="postDetails">
+
+<p class="post">{{ chunk.post }}</p>
+</div>
+</div>
+
+<div class="image">
+{% if chunk.image == "" %}
+{% else %}
+<img src="/image/{{chunk.image}}" class="pic">
+{% endif %}
+
+</a>
+
+
+</div>
+
+{% for lcount in likesCount %}
+{% for key,c in lcount %}
+{% if key == ids %}
+likes:{{c}}
+{% endif %}
+{% endfor %}
+{% endfor %}
+
+
+{% for count in commentCount %}
+{% for key,s in count %}
+{% if key == ids %}
+comments:{{s}}
+{% endif %}
+{% endfor %}
+{% endfor %}
+
+
+</div>
+
+{% endfor %}
+
+<form name="form" method="post" action="timeline.php">
+    <input type="hidden" id= "limit" name="limit">
+</form>
+<p id="end" class="end"></p>
+{% endblock %}
+
+{% block style %}
+
+<style>
+.timeline{
+    width:35%;
+    margin:0 auto;
+}
+.username{
+    text-transform:capitalize;
+    font-family:monospace;
+    text-decoration:none;
+    font-weight:bolder;
+    color:#001011;
+    padding:5px;
+}
+.profilePic{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    border:2px solid #98CE00;
+}
+.postUser{
+}
+.posts{
+    border-bottom:1px solid grey;
+    padding:20px;
+}
+.post{
+    font-family:monospace;
+    font-weight:lighter;
+    padding:9px;
+}
+.top{
+    padding:20px;
+    display:flex;
+    margin-bottom:30px;
+}
+.like{
+    width:15px;
+    fill:red;
+}
+.image{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-bottom:30px;
+}
+.pic {
+    border-radius:5px;
+    box-shadow:2px 5px 5px rgba(0,0,0,0.5);
+    height:500px;
+    width:700px;
+    object-fit:cover;
+}
+.end {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-top:50px;
+    height:100px;
+}
+.postDetails {
+    color:black;
+    text-decoration:none;
+}
+
+
+
+@media (max-width: 980px) {
+.timeline{
+    width:85%;
+    margin:0 auto;
+}
+.image{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-bottom:30px;
+}
+.pic {
+    border-radius:5px;
+    box-shadow:2px 5px 5px rgba(0,0,0,0.5);
+    height:170px;
+    width:370px;
+    object-fit:cover;
+}
+}
+</style>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+{% block script %}
+
+<script>
+const check = ()=>{
+    if({{allPostCount}} > {{count}}) {
+        return true
+    }
+    return false
+}
+
+
+        document.addEventListener("DOMContentLoaded", function(event) { 
+            var scrollpos = localStorage.getItem('scrollpos');
+            if (scrollpos) window.scrollTo(100, scrollpos);
+        });
+
+        window.onbeforeunload = function(e) {
+            localStorage.setItem('scrollpos', window.scrollY);
+        };
+if(check()) {
+    
+window.addEventListener("scroll" , ()=>{
+
+    console.log({{allPostCount}},{{count}},check())
+    var formElement = document.forms["form"]["limit"]
+    if(window.scrollY + window.innerHeight >= document.documentElement.scrollHeight){
+
+        let increasedValue = {{count}} + 3
+        formElement.setAttribute("value", increasedValue)
+        document.forms["form"].submit()
+    }
+})
+}
+else{    
+    document.getElementById("end").innerHTML = "No more posts";
+}
+
+const scrollTo = () => {
+    document.getElementById({{ids}}),scrollIntoView();
+}
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "index.twig" %}
+{% block title %}
+<title>Edit Profile</title>
+{% endblock %}
+
+
+{% block profiler %}
+<div class="profiler">
+{% include "components/currentProfile.twig" with {"username" : currentUsername , "profilePic" : currentProfilePic } %}
+</div>
+{% endblock %}
+
+
+{% block main %}
+
+{% if errors %}
+
+{% include "components/errors.twig" with {"error" : errors} %}
+
+{% endif %}
+    <div class="edit">
+      <form action="editProfile.php" method="post">
+      <h3>EditProfile</h3>
+      <input type="text" name="bio" placeholder="Enter what you want people to see as your bio">
+      <br>
+      {% include "components/button.twig" with {"name":"submit","value":"editprofile","id":"Edit"} %}
+      </form>
+    </div>
+{% endblock %}
+
+
+{% block style %}
+
+<style>
+*{
+    padding:0;
+    margin:0;
+}
+
+
+.edit{
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+.edit form {
+    display:flex;
+    height:38vh;
+    flex-direction:column;
+}
+.edit form h3 {
+    padding:20px;
+}
+
+.edit form input{
+    width: 500px;
+    padding: 10px;
+}
+@media (max-width:980px){
+}
+</style>
+
+{% endblock %}
